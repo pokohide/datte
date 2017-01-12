@@ -1,5 +1,3 @@
-require "datte/version"
-
-module Datte
-  # Your code goes here...
-end
+require 'datte/version'
+require File.join(File.dirname(__FILE__), 'datte', 'parser')
+require File.join(File.dirname(__FILE__), 'datte', 'date_parser')
