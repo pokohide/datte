@@ -24,6 +24,26 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+
+
+
+datte = Datte::Parser.new()
+
+datte.parse_date(body) do |date|
+  # dateには抽出した日付
+  # 日付が抽出出来た場合のみ実行される
+end
+
+date = datte.parse_date(body)
+if datte.nil?
+  # 抽出できなかった場合
+else
+  # 抽出できた場合
+end
+
+
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -38,4 +58,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-

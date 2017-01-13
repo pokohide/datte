@@ -21,9 +21,10 @@ module Datte
       @options = self.class.default_options.merge(options)
     end
 
-    def parse(body)
-      y, m, d = DateParser.new(body).parse
-      p y, m, d
+    def parse_date(body)
+      date = DateParser.new(body).parse
+      return yield(date) if block_given? && !date.nil?
+      return date
     end
 
     def to_date

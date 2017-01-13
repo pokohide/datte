@@ -1,38 +1,49 @@
 module Datte
   class DateParser
-
-    MATCHER = [
-      /(?<year>\d{1,4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})/,
-      /(?<month>\d{1,2})\/(?<day>\d{1,2})/
-    ].freeze
-
     def initialize(body, options = {})
       @body = body
       @options = options
+      @date = nil
+      #p Date.today
+      #p Dattetime.new().to_s
     end
 
     def parse
-      MATCHER.each do |matcher|
+      ABSOLUTE_DATES.each do |matcher|
         @body.match(matcher) do |md|
-          @md = md
-          return year, month, day
+          p md
+          break
         end
       end
-      return nil
+
+      return Date.today
+
+      # MATCHER.each do |matcher|
+      #   @body.match(matcher) do |md|
+      #     y = year(md)
+      #     m = month(md)
+      #     d = day(md)
+      #     #h = hour(md)
+      #     #m = minute(md)
+      #
+      #     @md = md
+      #     return y, m, d
+      #   end
+      # end
     end
 
     private
 
     def year
-      matched(@md, :year, 2017)
+      @year ||= matched(@md, :year, Date.today.year)
     end
 
     def month
-      matched(@md, :month, 1)
+      @month ||= matched(@md, :month, Date.today.month)
     end
 
     def day
-      matched(@md, :day, 1)
+      @day ||= matched(@md, :day, Date.today.day)
     end
 
     def matched(md, key, default)
