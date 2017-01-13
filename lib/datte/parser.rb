@@ -23,6 +23,7 @@ module Datte
 
     def parse_date(body)
       date = DateParser.new(body).parse
+      p date
       return yield(date) if block_given? && !date.nil?
       return date
     end

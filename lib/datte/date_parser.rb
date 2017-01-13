@@ -3,20 +3,23 @@ module Datte
     def initialize(body, options = {})
       @body = body
       @options = options
-      @date = nil
-      #p Date.today
-      #p Dattetime.new().to_s
+      @date = Dattetime.new
     end
 
     def parse
       ABSOLUTE_DATES.each do |matcher|
-        @body.match(matcher) do |md|
+        if md = @body.match(matcher)
+          @date.update_date(md)
+          p @date
+          p @date.year
+          p @date.month
+          p @date.day
           p md
           break
         end
       end
 
-      return Date.today
+      return @date.to_datetime
 
       # MATCHER.each do |matcher|
       #   @body.match(matcher) do |md|
@@ -34,20 +37,5 @@ module Datte
 
     private
 
-    def year
-      @year ||= matched(@md, :year, Date.today.year)
-    end
-
-    def month
-      @month ||= matched(@md, :month, Date.today.month)
-    end
-
-    def day
-      @day ||= matched(@md, :day, Date.today.day)
-    end
-
-    def matched(md, key, default)
-      md.names.include?(key.to_s) ? md[key] : default
-    end
   end
 end
