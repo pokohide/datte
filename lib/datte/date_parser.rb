@@ -10,11 +10,6 @@ module Datte
       ABSOLUTE_DATES.each do |matcher|
         if md = @body.match(matcher)
           @date.update_date(md)
-          p @date
-          p @date.year
-          p @date.month
-          p @date.day
-          p md
           break
         end
       end
@@ -42,13 +37,18 @@ module Datte
         end
       end
 
-
       return @date.to_datetime
     end
 
     private
 
     def next_day(day)
+      now = DateTime.now
+      @date.update_date({
+        year: now.year,
+        month: now.month,
+        day: now.day + day
+      }, {force_update: true})
     end
   end
 end

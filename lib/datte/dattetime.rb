@@ -90,3 +90,9 @@ class MatchData
     self.names.include?(key.to_s)
   end
 end
+
+class Hash
+  def matched?(key)
+    self.keys.include?(key)
+  end
+end
