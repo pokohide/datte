@@ -37,17 +37,25 @@ module Datte
     '(?<min>\d{1,2})分'
   ].map { |pattern| Regexp.compile(pattern) }.freeze
 
-  # DATES = {
-  #   '明日|あした': 'send(:next_day, 1)',
-  #   '明後日|あさって': 'send(:next_day, 2)',
-  #   '': '',
-  # }
+  NOUNS = {
+    '明日|あした|あす': 'send(:next_day, 1)',
+    '明後日|あさって': 'send(:next_day, 2)',
+    '明々後日|しあさって': 'send(:next_day, 3)',
+    '今日|きょう': 'send(:next_day, 0)'
+  }
 
-  # TIMES = {
-  #   '(?<hour>\d{1,2})時(?<min>\d{1,2})分',
-  #   '(?<hour>\d{1,2})時',
-  #   ''
-  # }
+  AFTERS = [
+    # 何年後
+    '(?<year>\d{1)年後',
+    # 何ヶ月後
+    '(?<month>\d{1,2}ヶ月後)',
+    # 何日後
+    '(?<day>\d{1,2})日後',
+    # 何時間後
+    '(?<hour>\d{1,2})時間後',
+    # 何分後
+    '(?<min>\d{1,2})分後'
+  ].map { |pattern| Regexp.compile(pattern) }.freeze
 
   class DatetimeTable
     def initialize
