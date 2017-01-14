@@ -19,23 +19,36 @@ module Datte
         end
       end
 
-      return @date.to_datetime
+      ABSOLUTE_TIMES.each do |matcher|
+        if md = @body.match(matcher)
+          @date.update_time(md)
+          p @date
+          break
+        end
+      end
 
-      # MATCHER.each do |matcher|
-      #   @body.match(matcher) do |md|
-      #     y = year(md)
-      #     m = month(md)
-      #     d = day(md)
-      #     #h = hour(md)
-      #     #m = minute(md)
-      #
-      #     @md = md
-      #     return y, m, d
-      #   end
-      # end
+      NOUNS.each do |matcher_s, method|
+        matcher = Regexp.new(matcher_s.to_s)
+        if md = @body.match(matcher)
+          eval(method)
+          break
+        end
+      end
+
+      AFTERS.each do |matcher|
+        if md = @body.match(matcher)
+          @date.after(md)
+          break
+        end
+      end
+
+
+      return @date.to_datetime
     end
 
     private
 
+    def next_day(day)
+    end
   end
 end
