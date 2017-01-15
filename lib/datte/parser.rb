@@ -22,6 +22,7 @@ module Datte
     end
 
     def parse_date(body)
+      body = TextConverter.new().kan_num(body)
       date = DateParser.new(body).parse
       p date
       return yield(date) if block_given? && !date.nil?
