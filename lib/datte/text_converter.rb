@@ -14,7 +14,6 @@ module Datte
         num = kan.scan(/([^千百十]*)([千百十]?)/).inject(-1) do |num, (_1_9, unit)|
           num + KANNUM_1_9[_1_9] * KANNUM_10[unit]
         end
-        p kan, num
         body.gsub!(kan, num.to_s)
       end
       body
