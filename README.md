@@ -1,8 +1,6 @@
-# Datte
+![Datte](https://raw.githubusercontent.com/hyde2able/datte/master/datte.png)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/datte`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A Fast and Easy DateTime Extractor in Japanese build with love by pokohide & sasaken.
 
 ## Installation
 
@@ -14,7 +12,9 @@ gem 'datte'
 
 And then execute:
 
-    $ bundle
+```
+$ bundle
+```
 
 Or install it yourself as:
 
@@ -22,27 +22,27 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
-
-
-
-
-datte = Datte::Parser.new()
-
-datte.parse_date(body) do |date|
-  # dateには抽出した日付
-  # 日付が抽出出来た場合のみ実行される
+```
+datte = Datte::Parser.new
+body = '明日の10時にxxに集合でよろしくー!'
+datte.parse_date(body) do |datetime|
+  # if body contains datetime, this block is excuted.
+  p datetime
+  # <DateTime: 2017-01-22T10:00:00+00:00 ((2457776j,36000s,0n),+0s,2299161j)>
 end
+```
 
-date = datte.parse_date(body)
+```
+datte = Datte::Parser.new
+body = '3/2まで回答お願いしますー！'
+datetime = datte.parse_date(body)
 if datte.nil?
-  # 抽出できなかった場合
+  puts "body doesn't contain datetime"
 else
-  # 抽出できた場合
+  p datetime
+  # <DateTime: 2017-03-02T18:00:00+00:00 ((2457815j,64800s,0n),+0s,2299161j)>
 end
-
-
-
+```
 
 ## Development
 
