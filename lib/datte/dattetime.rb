@@ -35,11 +35,23 @@ module Datte
 
     # 何年後、何ヶ月後、何日後, 何時間後, 何分後
     def after(md)
-      @date >> (md[:year].to_i * 12) if md.matched?(:year) # 何年後
-      @date >> md[:month].to_i if md.matched?(:month) # 何ヶ月後
-      @date + md[:day].to_i if md.matched?(:day) # 何日後
-      @date + Rational(md[:hour].to_i, 24) # 何時間後
-      @date + Rational(md[:hour].to_i, 24 * 60) # 何分後
+      if md.matched?(:year)
+        @year, @month, @day = now[:year] + md[:year].to_i, now[:month], now[:day]
+      end
+      if md.matched?(:month)
+        @year, @month, @day = now[:year], now[:month] + md[:month].to_i, now[:day]
+      end
+      if md.matched?(:day)
+        @year, @month, @day = now[:year], now[:month], now[:day] + md[:day].to_i
+      end
+      if md.matched?(:hour)
+        @hour, @min = now[:hour] + md[:hour].to_i, now[:min]
+      end
+      # @date >> (md[:year].to_i * 12) if md.matched?(:year) # 何年後
+      # @date >> md[:month].to_i if md.matched?(:month) # 何ヶ月後
+      # @date + md[:day].to_i if md.matched?(:day) # 何日後
+      # @date + Rational(md[:hour].to_i, 24) if md.matched?(:hour) # 何時間後
+      # @date + Rational(md[:hour].to_i, 24 * 60) if md.matched?(:hour) # 何分後
     end
 
     private
