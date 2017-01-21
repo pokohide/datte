@@ -57,6 +57,23 @@ module Datte
     '(?<min>\d{1,2})分後'
   ].map { |pattern| Regexp.compile(pattern) }.freeze
 
+  WEEKS = {
+    '来週|らいしゅう': 1,
+    '再来週|さらいしゅう': 2,
+    '次の': 1,
+    '翌週': 1
+  }
+
+  WDAYS = {
+    '日曜日|にちようび': 0,
+    '月曜日|げつようび': 1,
+    '火曜日|かようび': 2,
+    '水曜日|すいようび': 3,
+    '木曜日|もくようび': 4,
+    '金曜日|きんようび': 5,
+    '土曜日|どようび': 6
+  }
+
   class DatetimeTable
     def initialize
     end

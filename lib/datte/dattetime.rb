@@ -39,13 +39,17 @@ module Datte
         @year, @month, @day = now[:year] + md[:year].to_i, now[:month], now[:day]
       end
       if md.matched?(:month)
-        @year, @month, @day = now[:year], now[:month] + md[:month].to_i, now[:day]
+        carry = (now[:month] + md[:month].to_i) / 12
+        @year, @month, @day = now[:year] + carry, now[:month] + md[:month].to_i , now[:day]
       end
       if md.matched?(:day)
-        @year, @month, @day = now[:year], now[:month], now[:day] + md[:day].to_i
+        days = [31,28,31,30,31,30,31,31,30,31,30,31][now[:month] - 1]
+        carry = (now[:day] + md[:day].to_i) / days
+        @year, @month, @day = now[:year], now[:month] + carry, now[:day] + md[:day].to_i - carry * days
       end
       if md.matched?(:hour)
-        @hour, @min = now[:hour] + md[:hour].to_i, now[:min]
+        carry = (now[:hour] + md[:hour].to_i) / 24
+        @day, @hour = now[:day] + carry, now[:hour] + md[:hour].to_i - carry * 24, now[:min]
       end
       # @date >> (md[:year].to_i * 12) if md.matched?(:year) # 何年後
       # @date >> md[:month].to_i if md.matched?(:month) # 何ヶ月後
@@ -63,8 +67,8 @@ module Datte
     def mi; @min || 0 end
 
     def now
-      d = DateTime.now
-      { year: d.year, month: d.month, day: d.day, hour: d.hour, min: d.min }
+      @d ||= DateTime.now
+      { year: @d.year, month: @d.month, day: @d.day, hour: @d.hour, min: @d.min }
     end
 
     def year!(md)

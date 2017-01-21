@@ -37,6 +37,20 @@ module Datte
         end
       end
 
+      WEEKS.each do |matcher_s, week|
+        matcher = Regexp.new(matcher_s.to_s)
+        if @body.match(matcher)
+          WDAYS.each do |wday_matcher_s, wday|
+            wday_matcher = Regexp.new(wday_matcher_s.to_s)
+            if @body.match(wday_matcher)
+              now_wday = DateTime.now.wday
+              day = 7 * (week || 1) + wday - now_wday
+              @date.after({day: day})
+            end
+          end
+        end
+      end
+
       return @date.to_datetime
     end
 
