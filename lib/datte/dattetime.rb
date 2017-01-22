@@ -49,7 +49,11 @@ module Datte
       end
       if md.matched?(:hour)
         carry = (now[:hour] + md[:hour].to_i) / 24
-        @day, @hour = now[:day] + carry, now[:hour] + md[:hour].to_i - carry * 24, now[:min]
+        @day, @hour, @min = now[:day] + carry, now[:hour] + md[:hour].to_i - carry * 24, now[:min]
+      end
+      if md.matched?(:min)
+        carry = (now[:min] + md[:min].to_i) / 60
+        @day, @hour, @min = now[:day], now[:hour] + carry, now[:min] + md[:min].to_i - 60 * carry
       end
       # @date >> (md[:year].to_i * 12) if md.matched?(:year) # 何年後
       # @date >> md[:month].to_i if md.matched?(:month) # 何ヶ月後
